@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>test</title>
+    <url>/2020/10/14/test/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2020/10/10/hello-world/</url>
     <content><![CDATA[<p>littlewhite,Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -16,29 +21,6 @@
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>test</title>
-    <url>/2020/10/14/test/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title></title>
-    <url>/2020/07/29/cisco_dhcp%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h1 id="cisco-dhcp-server配置"><a href="#cisco-dhcp-server配置" class="headerlink" title="cisco_dhcp server配置"></a>cisco_dhcp server配置</h1><h2 id="1-Dhcp-server开启"><a href="#1-Dhcp-server开启" class="headerlink" title="1. Dhcp server开启"></a>1. Dhcp server开启</h2><p>​    </p>
-<figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">cisco&gt; enable</span><br><span class="line">cisco# configure terminal</span><br><span class="line">cisco(config)# service dhcp</span><br><span class="line">cisco(config)# ip dhcp pool cisco</span><br><span class="line">cisco(config)# network 192.168.1.0 255.255.255.0</span><br><span class="line">cisco(config)# default-router 192.168.1.1</span><br><span class="line">cisco(config)# lease 3</span><br><span class="line">cisco(config)# exit</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="2-开启端口"><a href="#2-开启端口" class="headerlink" title="2. 开启端口"></a>2. 开启端口</h2><figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">cisco(config)# interface f1</span><br><span class="line">cisco(config)# no shutdown</span><br><span class="line">cisco(config)# ip address 192.168.1.1 255.255.255.0</span><br></pre></td></tr></table></figure>
-
-<p>这里的f1是设备的一个端口名称，可以用show run命令查看</p>
-<figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">show ip dhcp binding  # 显示地址分配情况</span><br><span class="line">shou ip dhcp conflict # 显示地址冲突情况</span><br><span class="line">clear ip dhcp binding 192.168.1.1 # 清理已经分配的ip</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="3-Dhcp-relay配置"><a href="#3-Dhcp-relay配置" class="headerlink" title="3. Dhcp relay配置"></a>3. Dhcp relay配置</h2><p>​    </p>
 ]]></content>
   </entry>
 </search>
