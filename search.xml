@@ -19,26 +19,11 @@
 ]]></content>
   </entry>
   <entry>
-    <title>cisco_dhcp_configure</title>
-    <url>/2020/10/14/cisco-dhcp-configure/</url>
-    <content><![CDATA[<h1 id="cisco-dhcp-server配置"><a href="#cisco-dhcp-server配置" class="headerlink" title="cisco_dhcp server配置"></a>cisco_dhcp server配置</h1><h2 id="1-Dhcp-server开启"><a href="#1-Dhcp-server开启" class="headerlink" title="1. Dhcp server开启"></a>1. Dhcp server开启</h2><p>​    </p>
-<figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">cisco&gt; enable</span><br><span class="line">cisco# configure terminal</span><br><span class="line">cisco(config)# service dhcp</span><br><span class="line">cisco(config)# ip dhcp pool cisco</span><br><span class="line">cisco(config)# network 192.168.1.0 255.255.255.0</span><br><span class="line">cisco(config)# default-router 192.168.1.1</span><br><span class="line">cisco(config)# lease 3</span><br><span class="line">cisco(config)# exit</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="2-开启端口"><a href="#2-开启端口" class="headerlink" title="2. 开启端口"></a>2. 开启端口</h2><figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">cisco(config)# interface f1</span><br><span class="line">cisco(config)# no shutdown</span><br><span class="line">cisco(config)# ip address 192.168.1.1 255.255.255.0</span><br></pre></td></tr></table></figure>
-
-<p>这里的f1是设备的一个端口名称，可以用show run命令查看</p>
-<figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">show ip dhcp binding  # 显示地址分配情况</span><br><span class="line">shou ip dhcp conflict # 显示地址冲突情况</span><br><span class="line">clear ip dhcp binding 192.168.1.1 # 清理已经分配的ip</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="3-Dhcp-relay配置"><a href="#3-Dhcp-relay配置" class="headerlink" title="3. Dhcp relay配置"></a>3. Dhcp relay配置</h2><p>​    </p>
-]]></content>
-  </entry>
-  <entry>
     <title>test</title>
     <url>/2020/10/14/test/</url>
     <content><![CDATA[]]></content>
+      <tags>
+        <tag>1</tag>
+      </tags>
   </entry>
 </search>
