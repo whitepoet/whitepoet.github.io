@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>cisco_dhcp_configure</title>
-    <url>/2020/10/14/cisco-dhcp-configure/</url>
+    <url>/cisco-dhcp-configure</url>
     <content><![CDATA[<p>cisco_dhcp server配置</p>
 <h2 id="1-Dhcp-server开启"><a href="#1-Dhcp-server开启" class="headerlink" title="1. Dhcp server开启"></a>1. Dhcp server开启</h2><p>​    </p>
 <figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">cisco&gt; enable</span><br><span class="line">cisco# configure terminal</span><br><span class="line">cisco(config)# service dhcp</span><br><span class="line">cisco(config)# ip dhcp pool cisco</span><br><span class="line">cisco(config)# network 192.168.1.0 255.255.255.0</span><br><span class="line">cisco(config)# default-router 192.168.1.1</span><br><span class="line">cisco(config)# lease 3</span><br><span class="line">cisco(config)# exit</span><br></pre></td></tr></table></figure>
@@ -28,7 +28,7 @@
   </entry>
   <entry>
     <title>cve-2017-14429复现</title>
-    <url>/2020/10/14/cve-2017-14429%E5%A4%8D%E7%8E%B0/</url>
+    <url>/cve-2017-14429%E5%A4%8D%E7%8E%B0</url>
     <content><![CDATA[<p>漏洞复现</p>
 <h2 id="漏洞编号"><a href="#漏洞编号" class="headerlink" title="漏洞编号"></a>漏洞编号</h2><p>cve-2017-14429</p>
 <h2 id="漏洞效果"><a href="#漏洞效果" class="headerlink" title="漏洞效果"></a>漏洞效果</h2><p>可以以root用户的身份执行代码</p>
@@ -52,7 +52,7 @@
 <p>​    sudo touch /var/lib/dhcp/dhcpd.leases</p>
 <h3 id="路由器连接设置"><a href="#路由器连接设置" class="headerlink" title="路由器连接设置"></a>路由器连接设置</h3><p>需要进路由器页面设置为dhcp获取ip,然后将wan口和主机连接，连接的网卡是之前设置静态ip的网卡。</p>
 <h3 id="初步结果"><a href="#初步结果" class="headerlink" title="初步结果"></a>初步结果</h3><p>可以观察到路由器在启动后，两个指示灯都会变成黄灯，随即路由器开始重启，第一个变成黄色，第二个熄灭，表示重启过程。然后这个过程会一直重复。下图是用wireshark抓包的整个过程。</p>
-<p><img src="/2020/10/14/cve-2017-14429%E5%A4%8D%E7%8E%B0/1.png" alt="wireshark抓包"></p>
+<p><img src="/cve-2017-14429%E5%A4%8D%E7%8E%B0/1.png" alt="wireshark抓包"></p>
 <h2 id="后续利用分析"><a href="#后续利用分析" class="headerlink" title="后续利用分析"></a>后续利用分析</h2><p>漏洞的作者在博客中的利 用是通过路由器的wget上传一个telnet服务器，可以从wan口进行telnet连接。由于无法实现可以在router系统上执行的程序，所以寻找其他的办法。</p>
 <p>路由器上存在着一个telnet的后门，但是只有路由器reset后才能启用这个后门，之后如果路由器重启的话就消失了。</p>
 <p>如果按照启用这个后门的脚本重新写一个传进路由器的系统中执行，是不是可以重新开启这个后门。但是所编译后的程序都无法在系统中执行，报错为ELF：not found。</p>
@@ -81,7 +81,7 @@
   </entry>
   <entry>
     <title>Hello World</title>
-    <url>/2020/10/10/hello-world/</url>
+    <url>/hello-world</url>
     <content><![CDATA[<p>littlewhite,Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
