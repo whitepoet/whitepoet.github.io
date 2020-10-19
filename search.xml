@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>cisco_dhcp_configure</title>
+    <url>/cisco-dhcp-configure/</url>
+    <content><![CDATA[<p>cisco_dhcp server配置</p>
+<h2 id="1-Dhcp-server开启"><a href="#1-Dhcp-server开启" class="headerlink" title="1. Dhcp server开启"></a>1. Dhcp server开启</h2><p>​    </p>
+<figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">cisco&gt; enable</span><br><span class="line">cisco# configure terminal</span><br><span class="line">cisco(config)# service dhcp</span><br><span class="line">cisco(config)# ip dhcp pool cisco</span><br><span class="line">cisco(config)# network 192.168.1.0 255.255.255.0</span><br><span class="line">cisco(config)# default-router 192.168.1.1</span><br><span class="line">cisco(config)# lease 3</span><br><span class="line">cisco(config)# exit</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-开启端口"><a href="#2-开启端口" class="headerlink" title="2. 开启端口"></a>2. 开启端口</h2><figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">cisco(config)# interface f1</span><br><span class="line">cisco(config)# no shutdown</span><br><span class="line">cisco(config)# ip address 192.168.1.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p>这里的f1是设备的一个端口名称，可以用show run命令查看</p>
+<figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">show ip dhcp binding  # 显示地址分配情况</span><br><span class="line">shou ip dhcp conflict # 显示地址冲突情况</span><br><span class="line">clear ip dhcp binding 192.168.1.1 # 清理已经分配的ip</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-Dhcp-relay配置"><a href="#3-Dhcp-relay配置" class="headerlink" title="3. Dhcp relay配置"></a>3. Dhcp relay配置</h2><p>​    </p>
+]]></content>
+      <categories>
+        <category>iot</category>
+      </categories>
+      <tags>
+        <tag>cisco</tag>
+        <tag>dhcp_configure</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>cve-2017-14429复现</title>
     <url>/cve-2017-14429%E5%A4%8D%E7%8E%B0/</url>
     <content><![CDATA[<p>漏洞复现</p>
@@ -27,7 +53,6 @@
 <h3 id="路由器连接设置"><a href="#路由器连接设置" class="headerlink" title="路由器连接设置"></a>路由器连接设置</h3><p>需要进路由器页面设置为dhcp获取ip,然后将wan口和主机连接，连接的网卡是之前设置静态ip的网卡。</p>
 <h3 id="初步结果"><a href="#初步结果" class="headerlink" title="初步结果"></a>初步结果</h3><p>可以观察到路由器在启动后，两个指示灯都会变成黄灯，随即路由器开始重启，第一个变成黄色，第二个熄灭，表示重启过程。然后这个过程会一直重复。下图是用wireshark抓包的整个过程。</p>
 <p><img src="/cve-2017-14429%E5%A4%8D%E7%8E%B0/1.png" alt="wireshark抓包"></p>
-<p><img src="https://cdn.jsdelivr.net/gh/whitepoet/cdn/img/gogogo.jpg" alt="wireshark_packet"></p>
 <h2 id="后续利用分析"><a href="#后续利用分析" class="headerlink" title="后续利用分析"></a>后续利用分析</h2><p>漏洞的作者在博客中的利用是通过路由器的wget上传一个telnet服务器，可以从wan口进行telnet连接。由于无法实现可以在router系统上执行的程序，所以寻找其他的办法。</p>
 <p>路由器上存在着一个telnet的后门，但是只有路由器reset后才能启用这个后门，之后如果路由器重启的话就消失了。</p>
 <p>如果按照启用这个后门的脚本重新写一个传进路由器的系统中执行，是不是可以重新开启这个后门。但是所编译后的程序都无法在系统中执行，报错为ELF：not found。</p>
@@ -52,32 +77,6 @@
       <tags>
         <tag>dlink</tag>
         <tag>dhcp_ld</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>cisco_dhcp_configure</title>
-    <url>/cisco-dhcp-configure/</url>
-    <content><![CDATA[<p>cisco_dhcp server配置</p>
-<h2 id="1-Dhcp-server开启"><a href="#1-Dhcp-server开启" class="headerlink" title="1. Dhcp server开启"></a>1. Dhcp server开启</h2><p>​    </p>
-<figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">cisco&gt; enable</span><br><span class="line">cisco# configure terminal</span><br><span class="line">cisco(config)# service dhcp</span><br><span class="line">cisco(config)# ip dhcp pool cisco</span><br><span class="line">cisco(config)# network 192.168.1.0 255.255.255.0</span><br><span class="line">cisco(config)# default-router 192.168.1.1</span><br><span class="line">cisco(config)# lease 3</span><br><span class="line">cisco(config)# exit</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="2-开启端口"><a href="#2-开启端口" class="headerlink" title="2. 开启端口"></a>2. 开启端口</h2><figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">cisco(config)# interface f1</span><br><span class="line">cisco(config)# no shutdown</span><br><span class="line">cisco(config)# ip address 192.168.1.1 255.255.255.0</span><br></pre></td></tr></table></figure>
-
-<p>这里的f1是设备的一个端口名称，可以用show run命令查看</p>
-<figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">show ip dhcp binding  # 显示地址分配情况</span><br><span class="line">shou ip dhcp conflict # 显示地址冲突情况</span><br><span class="line">clear ip dhcp binding 192.168.1.1 # 清理已经分配的ip</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="3-Dhcp-relay配置"><a href="#3-Dhcp-relay配置" class="headerlink" title="3. Dhcp relay配置"></a>3. Dhcp relay配置</h2><p>​    </p>
-]]></content>
-      <categories>
-        <category>iot</category>
-      </categories>
-      <tags>
-        <tag>cisco</tag>
-        <tag>dhcp_configure</tag>
       </tags>
   </entry>
   <entry>
