@@ -27,6 +27,24 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/hello-world/</url>
+    <content><![CDATA[<p>littlewhite,Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>cve-2017-14429复现</title>
     <url>/cve-2017-14429%E5%A4%8D%E7%8E%B0/</url>
     <content><![CDATA[<p>漏洞复现</p>
@@ -80,21 +98,45 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/hello-world/</url>
-    <content><![CDATA[<p>littlewhite,Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+    <title>qnap_nas_releated</title>
+    <url>/qnap-nas-releated/</url>
+    <content><![CDATA[<p>和qnap nas相关的一些记录,会一直更新。</p>
+<p>qnap nas设备的os应该是arm架构的</p>
+<h2 id="1-固件解包"><a href="#1-固件解包" class="headerlink" title="1. 固件解包"></a>1. 固件解包</h2><p>Qnap nas固件的解包用binwalk无法成功，Fireware Mod Kit我不怎么用，所以也没去尝试。经过调研发现其固件都是经过加密的，密钥都是“QNAPNASVERSION4”，所以可以利用公开的一些工具进行解压，可以看后面的参考1-5.</p>
+<p>PC1和PC2这两个程序是nas os里面使用的解密/加密脚本，参考5就是PC1的pthon3实现，参考1的工具也需要PC1这个程序。</p>
+<p>解密的命令大致类似</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> PC1 d  QNAPNASVERSION4 source.img dest.tar.gz</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>命令执行完就是解压下压缩包就是包的内容了</p>
+<p>我测试的时候只用了PC1（从nas设备里面拷贝出的，不是我编译参考2出来的，编译可能要在arm环境下）和python的脚本，这两个解出来的是一样的。</p>
+<p>参考中的部分脚本我也放到了自己的github中，在some_iot里面，欢迎star。</p>
+<h2 id="2-设备挂载U盘"><a href="#2-设备挂载U盘" class="headerlink" title="2. 设备挂载U盘"></a>2. 设备挂载U盘</h2><p>查看U盘信息。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> fdisk -l</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>这时候最后会出现你插入U盘的信息，差不多是下面图这样。</p>
+<p><img src="/qnap-nas-releated/1.png" alt="usb_info"></p>
+<p>挂载U盘, sdb1根据实际情况修改，mmc_sd文件夹提示没有的话可以用mkdir创建一个，qnap的os里面支持的unix命令还是挺多的。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> mount -t vfat /dev/sdb1 /mnt/mmc_sd/</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>然后后面进到mmc_sd文件夹里面就可以看到U盘的文件了。</p>
+<p>卸载U盘，执行命令时要推出当前目录。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">umount /mnt/mmc_sd</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>如果无法卸载的话看一看相关的进程然后kill掉就可以了</p>
+<p>挂载U盘有一个好处就是可以copy系统里的文件拿出来分析，也可以执行系统里的命令处理U盘里的文件，比如PC1命令。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a href="https://github.com/max-boehm/qnap-utils">公开工具qnap-utils</a></li>
+<li><a href="https://sites.google.com/site/nliaudat/nas/test2/qnap401t-decryptencryptfirmware">PC1 &amp;&amp; PC2源码分享</a></li>
+<li><a href="https://island123.github.io/2019/03/14/2019-03-14-QNAP%E5%9B%BA%E4%BB%B6%E8%A7%A3%E5%8E%8B%E5%8F%8A%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98%E8%BE%85%E5%8A%A9%E8%84%9A%E6%9C%AC/#%E5%9B%BA%E4%BB%B6%E8%A7%A3%E5%8E%8B">qnap解包和辅助脚本</a></li>
+<li><a href="https://github.com/qnap-dev/qdk2">一个比较复杂的解包程序</a></li>
+<li>[python解包脚本](</li>
+</ol>
 ]]></content>
+      <categories>
+        <category>iot</category>
+      </categories>
+      <tags>
+        <tag>nas</tag>
+      </tags>
   </entry>
 </search>
