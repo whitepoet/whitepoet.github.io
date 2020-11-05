@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://whitepoet.com/cve-2017-14429%E5%A4%8D%E7%8E%B0/</loc>
+    
+    <lastmod>2020-11-05</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://whitepoet.com/qnap-nas-releated/</loc>
     
     <lastmod>2020-10-21</lastmod>
@@ -24,13 +31,6 @@
   
   <url>
     <loc>https://whitepoet.com/tags/index.html</loc>
-    
-    <lastmod>2020-10-19</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://whitepoet.com/cve-2017-14429%E5%A4%8D%E7%8E%B0/</loc>
     
     <lastmod>2020-10-19</lastmod>
     
@@ -67,7 +67,7 @@
 
   <url>
     <loc>https://whitepoet.com/</loc>
-    <lastmod>2020-10-30</lastmod>
+    <lastmod>2020-11-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -75,35 +75,35 @@
   
   <url>
     <loc>https://whitepoet.com/tags/cisco/</loc>
-    <lastmod>2020-10-30</lastmod>
+    <lastmod>2020-11-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://whitepoet.com/tags/dhcp-configure/</loc>
-    <lastmod>2020-10-30</lastmod>
+    <lastmod>2020-11-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://whitepoet.com/tags/dlink/</loc>
-    <lastmod>2020-10-30</lastmod>
+    <lastmod>2020-11-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://whitepoet.com/tags/dhcp-ld/</loc>
-    <lastmod>2020-10-30</lastmod>
+    <lastmod>2020-11-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://whitepoet.com/tags/nas/</loc>
-    <lastmod>2020-10-30</lastmod>
+    <lastmod>2020-11-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -112,14 +112,14 @@
   
   <url>
     <loc>https://whitepoet.com/categories/iot/</loc>
-    <lastmod>2020-10-30</lastmod>
+    <lastmod>2020-11-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://whitepoet.com/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</loc>
-    <lastmod>2020-10-30</lastmod>
+    <lastmod>2020-11-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
