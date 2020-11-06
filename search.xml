@@ -27,24 +27,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/hello-world/</url>
-    <content><![CDATA[<p>littlewhite,Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>cve-2017-14429复现</title>
     <url>/cve-2017-14429%E5%A4%8D%E7%8E%B0/</url>
     <content><![CDATA[<p>漏洞复现</p>
@@ -96,6 +78,37 @@
       <tags>
         <tag>dlink</tag>
         <tag>dhcp_ld</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/hello-world/</url>
+    <content><![CDATA[<p>littlewhite,Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>netzob语言规范</title>
+    <url>/netzob%E8%AF%AD%E8%A8%80%E8%A7%84%E8%8C%83/</url>
+    <content><![CDATA[<p>netzob描述语言（ZDL）是netzob公开的应用编程的接口，用于对通信协议中使用的数据结构进行建模。这种文本语言的设计是为了便于人类理解。它使用户能够通过专用的.zdl文件，独立于API和库的核心。ZDL语言的设计注重其表现力。本章首先介绍了ZDL语言的主要概念，然后解释了它在数据类型、约束和关系方面的表达能力。</p>
+<h2 id="报文格式建模"><a href="#报文格式建模" class="headerlink" title="报文格式建模"></a>报文格式建模</h2><h3 id="报文格式建模概念"><a href="#报文格式建模概念" class="headerlink" title="报文格式建模概念"></a>报文格式建模概念</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>协议的词汇表定义了一组有效的消息及其格式。在库中，协议的词汇表由一系列符号组成。从协议的角度来看，符号代表所有具有相似目标的消息。例如，HTTP_GET符号将描述任何设置了GET方法的HTTP请求。一个符号可以被专门化为一个上下文有效的消息，一个消息可以被抽象为一个符号。</p>
+<h4 id="symbols的抽象化和特殊化"><a href="#symbols的抽象化和特殊化" class="headerlink" title="symbols的抽象化和特殊化"></a>symbols的抽象化和特殊化</h4><h3 id="data-type建模"><a href="#data-type建模" class="headerlink" title="data type建模"></a>data type建模</h3><h4 id="数据类型API"><a href="#数据类型API" class="headerlink" title="数据类型API"></a>数据类型API</h4><h4 id="分析数据类型"><a href="#分析数据类型" class="headerlink" title="分析数据类型"></a>分析数据类型</h4><h3 id="data-variables-建模"><a href="#data-variables-建模" class="headerlink" title="data variables 建模"></a>data variables 建模</h3><h3 id="Fields-建模"><a href="#Fields-建模" class="headerlink" title="Fields 建模"></a>Fields 建模</h3><h3 id="复杂结构的fields建模"><a href="#复杂结构的fields建模" class="headerlink" title="复杂结构的fields建模"></a>复杂结构的fields建模</h3><h4 id="Aggregate-Domain"><a href="#Aggregate-Domain" class="headerlink" title="Aggregate Domain"></a>Aggregate Domain</h4><h4 id="Alternate-Domain"><a href="#Alternate-Domain" class="headerlink" title="Alternate Domain"></a>Alternate Domain</h4><h4 id="Repeat-Domain"><a href="#Repeat-Domain" class="headerlink" title="Repeat Domain"></a>Repeat Domain</h4><h3 id="field-关系建模"><a href="#field-关系建模" class="headerlink" title="field 关系建模"></a>field 关系建模</h3><h4 id="数值关系"><a href="#数值关系" class="headerlink" title="数值关系"></a>数值关系</h4><h4 id="大小关系"><a href="#大小关系" class="headerlink" title="大小关系"></a>大小关系</h4><h4 id="填充关系"><a href="#填充关系" class="headerlink" title="填充关系"></a>填充关系</h4><h4 id="checksum关系"><a href="#checksum关系" class="headerlink" title="checksum关系"></a>checksum关系</h4><h4 id="hash关系"><a href="#hash关系" class="headerlink" title="hash关系"></a>hash关系</h4><h4 id="HMAC关系"><a href="#HMAC关系" class="headerlink" title="HMAC关系"></a>HMAC关系</h4><h3 id="symbols-建模"><a href="#symbols-建模" class="headerlink" title="symbols 建模"></a>symbols 建模</h3><h3 id="symbols-persistence"><a href="#symbols-persistence" class="headerlink" title="symbols persistence"></a>symbols persistence</h3><h2 id="发送和接收报文"><a href="#发送和接收报文" class="headerlink" title="发送和接收报文"></a>发送和接收报文</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><h3 id="通信渠道API"><a href="#通信渠道API" class="headerlink" title="通信渠道API"></a>通信渠道API</h3><h3 id="可利用的通信渠道"><a href="#可利用的通信渠道" class="headerlink" title="可利用的通信渠道"></a>可利用的通信渠道</h3><h4 id="RawEthernetChannel-channel"><a href="#RawEthernetChannel-channel" class="headerlink" title="RawEthernetChannel channel"></a>RawEthernetChannel channel</h4><h4 id="RawIPChannel-channel"><a href="#RawIPChannel-channel" class="headerlink" title="RawIPChannel channel"></a>RawIPChannel channel</h4><h4 id="IPChannel-channel"><a href="#IPChannel-channel" class="headerlink" title="IPChannel channel"></a>IPChannel channel</h4><h4 id="UDPClient-channel"><a href="#UDPClient-channel" class="headerlink" title="UDPClient channel"></a>UDPClient channel</h4><h4 id="TCPClient-channel"><a href="#TCPClient-channel" class="headerlink" title="TCPClient channel"></a>TCPClient channel</h4><h4 id="UDPServer-channel"><a href="#UDPServer-channel" class="headerlink" title="UDPServer channel"></a>UDPServer channel</h4><h4 id="TCPServer-channel"><a href="#TCPServer-channel" class="headerlink" title="TCPServer channel"></a>TCPServer channel</h4><h4 id="SSLClient-channel"><a href="#SSLClient-channel" class="headerlink" title="SSLClient channel"></a>SSLClient channel</h4><h4 id="DebugChannel-channel"><a href="#DebugChannel-channel" class="headerlink" title="DebugChannel channel"></a>DebugChannel channel</h4><h3 id="抽象层"><a href="#抽象层" class="headerlink" title="抽象层"></a>抽象层</h3><h3 id="报文和环境的关系"><a href="#报文和环境的关系" class="headerlink" title="报文和环境的关系"></a>报文和环境的关系</h3><h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2>]]></content>
+      <categories>
+        <category>netzob</category>
+      </categories>
+      <tags>
+        <tag>netzob</tag>
       </tags>
   </entry>
   <entry>
