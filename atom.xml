@@ -6,7 +6,7 @@
   <link href="https://whitepoet.com/atom.xml" rel="self"/>
   
   <link href="https://whitepoet.com/"/>
-  <updated>2020-11-05T13:46:11.454Z</updated>
+  <updated>2020-12-03T03:20:14.830Z</updated>
   <id>https://whitepoet.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CVE-2018-1111复现</title>
+    <link href="https://whitepoet.com/CVE-2018-1111%E5%A4%8D%E7%8E%B0/"/>
+    <id>https://whitepoet.com/CVE-2018-1111%E5%A4%8D%E7%8E%B0/</id>
+    <published>2020-12-03T03:17:44.000Z</published>
+    <updated>2020-12-03T03:20:14.830Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="编号"><a href="#编号" class="headerlink" title="编号"></a>编号</h2><p>CVE-2018-1111</p><h2 id="漏洞类型"><a href="#漏洞类型" class="headerlink" title="漏洞类型"></a>漏洞类型</h2><p>命令注入</p><h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p>远程命令执行</p><h3 id="影响设备"><a href="#影响设备" class="headerlink" title="影响设备"></a>影响设备</h3><p>linux dhclient</p><h2 id="影响版本"><a href="#影响版本" class="headerlink" title="影响版本"></a>影响版本</h2><p>Red Hat Enterprise Linux 6 and 7, Fedora 28, and earlier</p><p>versions of before dhclient-4.2.5-68.el7 are vulnerable.</p><h2 id="漏洞原因"><a href="#漏洞原因" class="headerlink" title="漏洞原因"></a>漏洞原因</h2><p>/etc/NetworkManager/dispatcher.d/11-dhclient脚本中的eval对dhcp option的解析过程可以执行命令</p><p><img src="/CVE-2018-1111%E5%A4%8D%E7%8E%B0/1.png" alt="11-dhclient脚本"></p><p>declare会进行两项操作：</p><ol><li>如果变量包含特殊字符（例如空格或单引号），则会在两侧添加单引号，即’。</li><li>它会将内部单引号’转换为’\”（将一个字符转换为四个字符）。</li></ol><p>由于没有对引号进行转义，并且，后面有一个＆符号，所以，这就允许我们在这个eval()语句后面附加一个额外的命令。</p><p>我们原本的252 option是</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x&#39;&amp;&#123;payload&#125; #</span><br></pre></td></tr></table></figure><p>原本的dhclient代码操作后会变成</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x\&#39;\&amp;&#123;payload&#125; #</span><br></pre></td></tr></table></figure><p>declare的输出就会变成</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;x\&#39;\”\&amp;&#123;payload&#125; #&#39;</span><br></pre></td></tr></table></figure><p>然后根据 echo “export $optname=$optvalue” 可以执行如下代码</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eval &quot;$(echo &quot;export new_wpad&#x3D;&#39;x&#39;”&amp;&#123;payload&#125; #&#39; &quot;)&quot;</span><br></pre></td></tr></table></figure><p>同样，也可以用｜和；来进行攻击</p><h2 id="复现过程"><a href="#复现过程" class="headerlink" title="复现过程"></a>复现过程</h2><p>复现过程其实很简单，利用虚拟机搭建一个虚拟网络，攻击机作为dhcp服务器给靶机提供带有option252的dhcp服务，payload作为option252的value发送到靶机。</p><p>复现环境搭建是使用ubuntu 16.04作为攻击机, Red Hat Enterprise Linux 7.0作为靶机。githun上有一个用dockerfile搭建的复现环境,但是通过yum安装的软件版本已经是漏洞修复过的，所以只能参考一下。</p><p>twitter中给出的poc是利用dnsmasq作为dhcp服务器实现的。</p><p>通过复现实现了相关nc后门、reboot、以root权限创建文件。</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol><li><a href="https://cve.circl.lu/cve/CVE-2018-1111">影响版本详细1</a></li><li><a href="https://nvd.nist.gov/vuln/detail/CVE-2018-1111#match-3892890">影响版本详细2</a></li><li><a href="https://github.com/kkirsche/CVE-2018-1111">exp</a></li><li><a href="https://www.exploit-db.com/exploits/44890">exp from exploit-db1</a></li><li><a href="https://www.exploit-db.com/exploits/44652">exp from exploit-db2</a></li><li><a href="https://github.com/knqyf263/CVE-2018-1111">docker环境</a></li><li><a href="https://n0j.github.io/2018/05/16/cve-2018-1111.html">漏洞分析1</a></li><li><a href="https://unit42.paloaltonetworks.com/unit42-analysis-dhcp-client-script-code-execution-vulnerability-cve-2018-1111/">漏洞分析2</a></li><li><a href="https://twitter.com/Barknkilic/status/996470756283486209">漏洞发现twitter</a></li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;编号&quot;&gt;&lt;a href=&quot;#编号&quot; class=&quot;headerlink&quot; title=&quot;编号&quot;&gt;&lt;/a&gt;编号&lt;/h2&gt;&lt;p&gt;CVE-2018-1111&lt;/p&gt;
+&lt;h2 id=&quot;漏洞类型&quot;&gt;&lt;a href=&quot;#漏洞类型&quot; class=&quot;headerlink&quot; tit</summary>
+      
+    
+    
+    
+    <category term="漏洞复现" scheme="https://whitepoet.com/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+    
+    <category term="linux" scheme="https://whitepoet.com/tags/linux/"/>
+    
+    <category term="dhcp_ld" scheme="https://whitepoet.com/tags/dhcp-ld/"/>
+    
+  </entry>
   
   <entry>
     <title>netzob语言规范</title>
@@ -88,9 +115,9 @@
     <category term="漏洞复现" scheme="https://whitepoet.com/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
     
     
-    <category term="dlink" scheme="https://whitepoet.com/tags/dlink/"/>
-    
     <category term="dhcp_ld" scheme="https://whitepoet.com/tags/dhcp-ld/"/>
+    
+    <category term="dlink" scheme="https://whitepoet.com/tags/dlink/"/>
     
   </entry>
   
