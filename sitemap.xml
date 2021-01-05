@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://whitepoet.com/Fuzzification-Anti-Fuzzing%20Techniques/</loc>
+    
+    <lastmod>2021-01-05</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://whitepoet.com/CVE-2018-1111%E5%A4%8D%E7%8E%B0/</loc>
     
     <lastmod>2020-12-10</lastmod>
@@ -81,7 +88,7 @@
 
   <url>
     <loc>https://whitepoet.com/</loc>
-    <lastmod>2020-12-10</lastmod>
+    <lastmod>2021-01-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -89,49 +96,56 @@
   
   <url>
     <loc>https://whitepoet.com/tags/linux/</loc>
-    <lastmod>2020-12-10</lastmod>
+    <lastmod>2021-01-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://whitepoet.com/tags/dhcp-ld/</loc>
-    <lastmod>2020-12-10</lastmod>
+    <lastmod>2021-01-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://whitepoet.com/tags/anti-fuzz/</loc>
+    <lastmod>2021-01-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://whitepoet.com/tags/cisco/</loc>
-    <lastmod>2020-12-10</lastmod>
+    <lastmod>2021-01-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://whitepoet.com/tags/dhcp-configure/</loc>
-    <lastmod>2020-12-10</lastmod>
+    <lastmod>2021-01-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://whitepoet.com/tags/dlink/</loc>
-    <lastmod>2020-12-10</lastmod>
+    <lastmod>2021-01-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://whitepoet.com/tags/netzob/</loc>
-    <lastmod>2020-12-10</lastmod>
+    <lastmod>2021-01-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://whitepoet.com/tags/nas/</loc>
-    <lastmod>2020-12-10</lastmod>
+    <lastmod>2021-01-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -140,21 +154,28 @@
   
   <url>
     <loc>https://whitepoet.com/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</loc>
-    <lastmod>2020-12-10</lastmod>
+    <lastmod>2021-01-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://whitepoet.com/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2021-01-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://whitepoet.com/categories/iot/</loc>
-    <lastmod>2020-12-10</lastmod>
+    <lastmod>2021-01-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://whitepoet.com/categories/netzob/</loc>
-    <lastmod>2020-12-10</lastmod>
+    <lastmod>2021-01-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>

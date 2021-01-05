@@ -56,6 +56,22 @@
       </tags>
   </entry>
   <entry>
+    <title>Fuzzification:Anti-Fuzzing Techniques</title>
+    <url>/Fuzzification-Anti-Fuzzing%20Techniques/</url>
+    <content><![CDATA[<h2 id="文献题目"><a href="#文献题目" class="headerlink" title="文献题目"></a>文献题目</h2><p>Fuzzification:Anti-Fuzzing Techniques</p>
+<h2 id="文献作者"><a href="#文献作者" class="headerlink" title="文献作者"></a>文献作者</h2><p>Jinho Jung, Hong Hu, David Solodukhin, Daniel Pagan, Kyu Hyung Lee, Taesoo Kim</p>
+<h2 id="文章简介"><a href="#文章简介" class="headerlink" title="文章简介"></a>文章简介</h2><p>模糊测试作为一种软件测试技术，也被黑客用来发现0-day漏洞进行恶意攻击。为了保护二进制软件免受恶意的fuzz攻击，作者在本文中提出了一种叫fuzzification的技术方案。该技术会减缓攻击者fuzz的过程，增加开销并减少其发现的漏洞数量以及效率。作者最后对fuzzification进行评估实验，实验过程较完整，而且效果较好。</p>
+<h2 id="文章介绍"><a href="#文章介绍" class="headerlink" title="文章介绍"></a>文章介绍</h2><p>文章提出现在开发人员的需求是他们自己或者可信方来暴露产品的漏洞，而不是攻击者，下图展示了工作流程，</p>
+<p><img src="/1.png" alt="工作流程"></p>
+]]></content>
+      <categories>
+        <category>文献阅读笔记</category>
+      </categories>
+      <tags>
+        <tag>anti-fuzz</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>cisco_dhcp_configure</title>
     <url>/cisco-dhcp-configure/</url>
     <content><![CDATA[<p>cisco_dhcp server配置</p>
