@@ -2,9 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://whitepoet.com/Fuzzification-Anti-Fuzzing%20Techniques/</loc>
+    <loc>https://whitepoet.com/Fuzzification-Anti-Fuzzing-Techniques/</loc>
     
-    <lastmod>2021-01-05</lastmod>
+    <lastmod>2021-01-06</lastmod>
     
   </url>
   
@@ -137,14 +137,14 @@
   </url>
   
   <url>
-    <loc>https://whitepoet.com/tags/nas/</loc>
+    <loc>https://whitepoet.com/tags/netzob/</loc>
     <lastmod>2021-01-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://whitepoet.com/tags/netzob/</loc>
+    <loc>https://whitepoet.com/tags/nas/</loc>
     <lastmod>2021-01-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
