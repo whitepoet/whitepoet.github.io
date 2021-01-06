@@ -2,20 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://whitepoet.com/Fuzzification-Anti-Fuzzing-Techniques-1/</loc>
-    
-    <lastmod>2021-01-06</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://whitepoet.com/Fuzzification-Anti-Fuzzing-Techniques/</loc>
-    
-    <lastmod>2021-01-06</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://whitepoet.com/CVE-2018-1111%E5%A4%8D%E7%8E%B0/</loc>
     
     <lastmod>2020-12-10</lastmod>
@@ -116,13 +102,6 @@
   </url>
   
   <url>
-    <loc>https://whitepoet.com/tags/anti-fuzz/</loc>
-    <lastmod>2021-01-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://whitepoet.com/tags/cisco/</loc>
     <lastmod>2021-01-06</lastmod>
     <changefreq>daily</changefreq>
@@ -161,13 +140,6 @@
   
   <url>
     <loc>https://whitepoet.com/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</loc>
-    <lastmod>2021-01-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://whitepoet.com/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2021-01-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

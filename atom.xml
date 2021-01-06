@@ -6,7 +6,7 @@
   <link href="https://whitepoet.com/atom.xml" rel="self"/>
   
   <link href="https://whitepoet.com/"/>
-  <updated>2021-01-06T01:45:08.411Z</updated>
+  <updated>2020-12-10T02:53:17.351Z</updated>
   <id>https://whitepoet.com/</id>
   
   <author>
@@ -15,52 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Fuzzification:Anti-Fuzzing_Techniques</title>
-    <link href="https://whitepoet.com/Fuzzification-Anti-Fuzzing-Techniques-1/"/>
-    <id>https://whitepoet.com/Fuzzification-Anti-Fuzzing-Techniques-1/</id>
-    <published>2021-01-06T01:44:13.000Z</published>
-    <updated>2021-01-06T01:45:08.411Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="文献题目"><a href="#文献题目" class="headerlink" title="文献题目"></a>文献题目</h2><p>Fuzzification:Anti-Fuzzing Techniques</p><h2 id="文章来源"><a href="#文章来源" class="headerlink" title="文章来源"></a>文章来源</h2><p>2019 USENIX Security</p><h2 id="文献作者"><a href="#文献作者" class="headerlink" title="文献作者"></a>文献作者</h2><p>Jinho Jung, Hong Hu, David Solodukhin, Daniel Pagan, Kyu Hyung Lee, Taesoo Kim</p><p>Georgia Institute of Technology 、University of Georgia</p><h2 id="文章简介"><a href="#文章简介" class="headerlink" title="文章简介"></a>文章简介</h2><p>模糊测试作为一种软件测试技术，也被黑客用来发现0-day漏洞进行恶意攻击。为了保护二进制软件免受恶意的fuzz攻击，作者在本文中提出了一种叫fuzzification的技术方案。该技术会减缓攻击者fuzz的过程，增加开销并减少其发现的漏洞数量以及效率。作者最后对fuzzification进行评估实验，实验过程较完整，而且效果较好。</p><h2 id="文章介绍"><a href="#文章介绍" class="headerlink" title="文章介绍"></a>文章介绍</h2><p>文章提出现在开发人员的需求是他们自己或者可信方来暴露产品的漏洞，而不是攻击者，下图展示了工作流程，</p><p><img src="/1.png" alt="工作流程"></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;文献题目&quot;&gt;&lt;a href=&quot;#文献题目&quot; class=&quot;headerlink&quot; title=&quot;文献题目&quot;&gt;&lt;/a&gt;文献题目&lt;/h2&gt;&lt;p&gt;Fuzzification:Anti-Fuzzing Techniques&lt;/p&gt;
-&lt;h2 id=&quot;文章来源&quot;&gt;&lt;a hre</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Fuzzification:Anti-Fuzzing Techniques</title>
-    <link href="https://whitepoet.com/Fuzzification-Anti-Fuzzing-Techniques/"/>
-    <id>https://whitepoet.com/Fuzzification-Anti-Fuzzing-Techniques/</id>
-    <published>2021-01-05T12:18:18.000Z</published>
-    <updated>2021-01-06T01:42:12.499Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="文献题目"><a href="#文献题目" class="headerlink" title="文献题目"></a>文献题目</h2><p>Fuzzification:Anti-Fuzzing Techniques</p><h2 id="文章来源"><a href="#文章来源" class="headerlink" title="文章来源"></a>文章来源</h2><p>2019 USENIX Security</p><h2 id="文献作者"><a href="#文献作者" class="headerlink" title="文献作者"></a>文献作者</h2><p>Jinho Jung, Hong Hu, David Solodukhin, Daniel Pagan, Kyu Hyung Lee, Taesoo Kim</p><p>Georgia Institute of Technology 、University of Georgia</p><h2 id="文章简介"><a href="#文章简介" class="headerlink" title="文章简介"></a>文章简介</h2><p>模糊测试作为一种软件测试技术，也被黑客用来发现0-day漏洞进行恶意攻击。为了保护二进制软件免受恶意的fuzz攻击，作者在本文中提出了一种叫fuzzification的技术方案。该技术会减缓攻击者fuzz的过程，增加开销并减少其发现的漏洞数量以及效率。作者最后对fuzzification进行评估实验，实验过程较完整，而且效果较好。</p><h2 id="文章介绍"><a href="#文章介绍" class="headerlink" title="文章介绍"></a>文章介绍</h2><p>文章提出现在开发人员的需求是他们自己或者可信方来暴露产品的漏洞，而不是攻击者，下图展示了工作流程，</p><p><img src="/1.png" alt="工作流程"></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;文献题目&quot;&gt;&lt;a href=&quot;#文献题目&quot; class=&quot;headerlink&quot; title=&quot;文献题目&quot;&gt;&lt;/a&gt;文献题目&lt;/h2&gt;&lt;p&gt;Fuzzification:Anti-Fuzzing Techniques&lt;/p&gt;
-&lt;h2 id=&quot;文章来源&quot;&gt;&lt;a hre</summary>
-      
-    
-    
-    
-    <category term="文献阅读笔记" scheme="https://whitepoet.com/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
-    
-    
-    <category term="anti-fuzz" scheme="https://whitepoet.com/tags/anti-fuzz/"/>
-    
-  </entry>
   
   <entry>
     <title>CVE-2018-1111复现</title>
