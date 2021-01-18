@@ -1,0 +1,174 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A Benchmark for Stateful Protocol | up up and away</title><meta name="keywords" content="state fuzz"><meta name="author" content="whitepoet"><meta name="copyright" content="whitepoet"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="文献题目Fuzzification:Anti-Fuzzing Techniques 文章来源arxiv 文献作者Roberto Natella、Van-Thuan Pham unina、unime abstract本文提出了一种新的对网络协议进行有状态fuzz的基准。基准测试包括一套代表性的、用于流行协议的开源网络服务器，以及自动化实验的工具。 introduction测试协议实现的安全性很有挑战"><meta property="og:type" content="article"><meta property="og:title" content="A Benchmark for Stateful Protocol"><meta property="og:url" content="https://whitepoet.com/A-Benchmark-for-Stateful-Protocol/index.html"><meta property="og:site_name" content="up up and away"><meta property="og:description" content="文献题目Fuzzification:Anti-Fuzzing Techniques 文章来源arxiv 文献作者Roberto Natella、Van-Thuan Pham unina、unime abstract本文提出了一种新的对网络协议进行有状态fuzz的基准。基准测试包括一套代表性的、用于流行协议的开源网络服务器，以及自动化实验的工具。 introduction测试协议实现的安全性很有挑战"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://whitepoet.com/img/back2.jpeg"><meta property="article:published_time" content="2021-01-18T07:10:29.000Z"><meta property="article:modified_time" content="2021-01-18T07:19:21.410Z"><meta property="article:author" content="whitepoet"><meta property="article:tag" content="state fuzz"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://whitepoet.com/img/back2.jpeg"><link rel="shortcut icon" href="/img/myicon2.png"><link rel="canonical" href="https://whitepoet.com/A-Benchmark-for-Stateful-Protocol/"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//busuanzi.ibruce.info"><meta name="google-site-verification" content="I3oxhjeLGNSWagrLnGf1OBxsg0Cpujkq8sY3Er-A5t0"><meta name="msvalidate.01" content="89913D0023861C53834B53904B2F356C"><meta name="baidu-site-verification" content="code-3Nr5tEkpRb"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE={isPost:!0,isHome:!1,isHighlightShrink:!1,isToc:!0,postUpdate:"2021-01-18 15:19:21"}</script><noscript><style>#nav{opacity:1}.justified-gallery img{opacity:1}#post-meta time,#recent-posts time{display:inline!important}</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = '1'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><link rel="stylesheet" href="/css/myset.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sviptzk/StaticFile_HEXO@latest/butterfly/css/macblack.css"><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="up up and away" type="application/atom+xml"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/head.jpg" onerror='onerror=null,src="/img/friend_404.gif"' alt="avatar"></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i> <span>Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i> <span>Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i> <span>Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i> <span>Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i> <span>About</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image:url(/img/back2.jpeg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">up up and away</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i> <span>搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i> <span>Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i> <span>Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i> <span>Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i> <span>Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i> <span>About</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><h1 class="post-title">A Benchmark for Stateful Protocol</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-01-18T07:10:29.000Z" title="发表于 2021-01-18 15:10:29">2021-01-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-01-18T07:19:21.410Z" title="更新于 2021-01-18 15:19:21">2021-01-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">文献阅读笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="文献题目"><a href="#文献题目" class="headerlink" title="文献题目"></a>文献题目</h2><p>Fuzzification:Anti-Fuzzing Techniques</p><h2 id="文章来源"><a href="#文章来源" class="headerlink" title="文章来源"></a>文章来源</h2><p>arxiv</p><h2 id="文献作者"><a href="#文献作者" class="headerlink" title="文献作者"></a>文献作者</h2><p>Roberto Natella、Van-Thuan Pham</p><p>unina、unime</p><h3 id="abstract"><a href="#abstract" class="headerlink" title="abstract"></a>abstract</h3><p>本文提出了一种新的对网络协议进行有状态fuzz的基准。基准测试包括一套代表性的、用于流行协议的开源网络服务器，以及自动化实验的工具。</p><h3 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h3><p>测试协议实现的安全性很有挑战性，因为协议通常是有状态的。这意味着，与无状态程序相比，测试的输入空间不仅限于单个消息的格式（这些消息本身可能非常大），而且通过几个消息的潜在组合进一步扩大。因此，协议安全性测试需要通过考虑协议状态来有效地测试这种输入空间的技术。</p><p>近些年的研究都主要集中在fuzz上，而种子主要是来源于协议状态机等模型生成或从初始的种子中进行变异。</p><p>现在的基准主要关注无状态的测试，如Google FuzzBench、the DARPA Cyber Grand Challenge corpus、Magma，主要测试目标都是多媒体文件格式、数据压缩工具、操作系统实用程序等。</p><p>本文提出了一种新的网络协议状态模糊化基准（ProFuzzBench）。该基准测试提供了一套实现流行网络协议的开源程序，以及完全自动化执行模糊化实验的工具。作者选择了代表先前有状态模糊化研究中采用的程序，以及商业和开源模糊程序针对的网络协议。基于在这些项目中的经验，作者讨论了有状态网络协议模糊化的一些开放性研究问题，以及未来可能的发展方向。作者以开源的方式发布了基准，邀请社区使用它来评估新的模糊技术，并进一步扩展它以获得更多的目标。</p><h3 id="benchmark-targets"><a href="#benchmark-targets" class="headerlink" title="benchmark targets"></a>benchmark targets</h3><p>下表列出了选择的协议和相应的实现程序。表中简要的描述了协议的状态。虽然dns协议是无状态的，但是实现程序是有状态的，比如提供缓存以查询记录。</p><p><img src="/A-Benchmark-for-Stateful-Protocol/1.png" alt="list of protocol"></p><h3 id="automation"><a href="#automation" class="headerlink" title="automation"></a>automation</h3><p>协议模糊基准已作为一组实用程序发布，用于自动化目标软件的编译、配置、执行和分析（下图）。这些实用程序基于Docker自动化目标软件和模糊工具的部署，以实现可重复的实验，并支持在受控条件下对不同模糊技术进行比较分析。</p><p><img src="/A-Benchmark-for-Stateful-Protocol/2.png" alt="workflow"></p><p>第一阶段是容器镜像的构建。目前包括在基准中的测试工具是aflnew和aflnet。基准测试为每个目标软件提供了一组补丁，这些补丁在此状态下应用。对于大多数的目标软件，补丁程序通过在源代码中嵌入固定的种子来消除程序的随机性。去随机化对于具有可再现的行为很重要，此外，去随机化支持不同模糊技术的比较，因为它使得模糊者比其他模糊技术表现更好的可能性更小，而不是因为它的优点。在某些情况下，补丁减少或消除程序中的延迟，这些延迟在网络设置中用于同步，但不必要地减慢模糊，因为模糊可以在本地以较小的延迟执行。其他补丁使程序与fuzzers兼容。例如，AFL使用UNIX信号来管理目标进程并检测其故障。因此，应禁用这些信号的任何自定义处理程序，以避免干扰基于AFL的模糊工具。</p><p>此外，补丁支持协议模糊工具来跟踪协议状态，以最大限度地提高状态覆盖率。例如，RTSP协议对所有成功的请求使用相同的响应代码200，而不管当前服务器状态如何。为了使有状态的模糊化更有效，我们的基准测试会对目标（Live555服务器）进行修补，以发送具有不同状态代码的响应，例如，处理播放命令时发送201，处理暂停命令时发送203。</p><p>然后就是在容器中对程序进行编译，第一次使用afl编译器进行编译，以便进行fuzz；第二次用带有gcov支持的编译，它将在最后使用以计算覆盖率。</p><p>第二阶段就是测试，同一个实验重复多次，实验结束后导出实验数据。</p><p>最后阶段就是分析原始数据，并对第二次编译的目标程序再次运行输入以获得更多的关于覆盖率的数据，最后生成csv文件进行比较。</p><h3 id="discussion"><a href="#discussion" class="headerlink" title="discussion"></a>discussion</h3><p>作者发现了一些问题。</p><p>configuration and multi-party protocols.对于现实世界中的网络服务器，配置空间可能相当复杂。由于配置会影响攻击面，因此它间接地成为模糊化的关注点。</p><p>特别是，协议可能需要运行两个以上的parties。现有的模糊技术只采用客户机-服务器方案，其中模糊程序充当客户机。然而，在SIP协议的情况下，至少需要三方：被测服务器、“调用者”和“被调用者”。一个或多个“被呼叫者”和“呼叫者”必须首先在服务器上注册；然后，呼叫者可以通过指示被呼叫者的名称与服务器联系；服务器将充当被呼叫者和呼叫者之间的代理，以便在他们之间建立通信（例如，VoIP呼叫）。在此过程中，服务器将处理“振铃”、“被叫方忙的可能性”等。下图是工具和Kamailio SIP目标软件之间的交互示例，作者使用了一个脚本解决了这个问题。</p><p><img src="/A-Benchmark-for-Stateful-Protocol/3.png" alt="SIP协议交互示例"></p><p>Deterministic execution.对一个完整的网络服务器进行模糊化的另一个挑战是不确定性行为，因为线程和基于事件的I/O的广泛使用。当相同的输入应用于目标软件时，其不确定性导致程序路径覆盖范围的变化，这反过来阻碍了覆盖驱动的模糊化。因此，AFL对扩展覆盖范围的每个新输入执行“校准”，以评估执行是否确定，并报告异常新输入的百分比（稳定性度量）。本文的基准采用了对AFL的一个建议：<a target="_blank" rel="noopener" href="https://github.com/mirrorer/afl/blob/master/docs/status_screen.txt">Michal Zalewski. 2020. AFL Documentation - Understanding the status screen</a>，在可能的情况下禁用线程。</p><p>State identification.协议模糊化的目标是生成覆盖协议状态的测试用例。作者的实现中还面临着识别协议当前状态的问题。</p><h3 id="source"><a href="#source" class="headerlink" title="source"></a>source</h3><p><a target="_blank" rel="noopener" href="https://github.com/profuzzbench/profuzzbench">https://github.com/profuzzbench/profuzzbench</a></p></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者:</span> <span class="post-copyright-info"><a href="mailto:undefined">whitepoet</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接:</span> <span class="post-copyright-info"><a href="https://whitepoet.com/A-Benchmark-for-Stateful-Protocol/">https://whitepoet.com/A-Benchmark-for-Stateful-Protocol/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明:</span> <span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://whitepoet.com" target="_blank">up up and away</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/state-fuzz/">state fuzz</a></div><div class="post_share"><div class="social-share" data-image="/img/back2.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/Fuzzification-Anti-Fuzzing-Techniques/"><img class="next-cover" src="/img/back2.jpeg" onerror='onerror=null,src="/img/404.jpg"'><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Fuzzification:Anti-Fuzzing Techniques</div></div></a></div></nav><hr><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i> <span>评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/head.jpg" onerror='this.onerror=null,this.src="/img/friend_404.gif"' alt="avatar"><div class="author-info__name">whitepoet</div><div class="author-info__description">go big or go home</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/whitepoet"><i class="fab fa-github"></i><span>Follow Me</span></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E7%8C%AE%E9%A2%98%E7%9B%AE"><span class="toc-number">1.</span> <span class="toc-text">文献题目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E7%AB%A0%E6%9D%A5%E6%BA%90"><span class="toc-number">2.</span> <span class="toc-text">文章来源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E7%8C%AE%E4%BD%9C%E8%80%85"><span class="toc-number">3.</span> <span class="toc-text">文献作者</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#abstract"><span class="toc-number">3.1.</span> <span class="toc-text">abstract</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#introduction"><span class="toc-number">3.2.</span> <span class="toc-text">introduction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#benchmark-targets"><span class="toc-number">3.3.</span> <span class="toc-text">benchmark targets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#automation"><span class="toc-number">3.4.</span> <span class="toc-text">automation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#discussion"><span class="toc-number">3.5.</span> <span class="toc-text">discussion</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#source"><span class="toc-number">3.6.</span> <span class="toc-text">source</span></a></li></ol></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/A-Benchmark-for-Stateful-Protocol/" title="A Benchmark for Stateful Protocol"><img src="/img/back2.jpeg" onerror='this.onerror=null,this.src="/img/404.jpg"' alt="A Benchmark for Stateful Protocol"></a><div class="content"><a class="title" href="/A-Benchmark-for-Stateful-Protocol/" title="A Benchmark for Stateful Protocol">A Benchmark for Stateful Protocol</a><time datetime="2021-01-18T07:10:29.000Z" title="发表于 2021-01-18 15:10:29">2021-01-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/Fuzzification-Anti-Fuzzing-Techniques/" title="Fuzzification:Anti-Fuzzing Techniques"><img src="/img/back2.jpeg" onerror='this.onerror=null,this.src="/img/404.jpg"' alt="Fuzzification:Anti-Fuzzing Techniques"></a><div class="content"><a class="title" href="/Fuzzification-Anti-Fuzzing-Techniques/" title="Fuzzification:Anti-Fuzzing Techniques">Fuzzification:Anti-Fuzzing Techniques</a><time datetime="2021-01-05T12:18:18.000Z" title="发表于 2021-01-05 20:18:18">2021-01-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/CVE-2018-1111%E5%A4%8D%E7%8E%B0/" title="CVE-2018-1111复现"><img src="/img/back2.jpeg" onerror='this.onerror=null,this.src="/img/404.jpg"' alt="CVE-2018-1111复现"></a><div class="content"><a class="title" href="/CVE-2018-1111%E5%A4%8D%E7%8E%B0/" title="CVE-2018-1111复现">CVE-2018-1111复现</a><time datetime="2020-12-03T03:17:44.000Z" title="发表于 2020-12-03 11:17:44">2020-12-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/netzob%E8%AF%AD%E8%A8%80%E8%A7%84%E8%8C%83/" title="netzob语言规范"><img src="/img/back2.jpeg" onerror='this.onerror=null,this.src="/img/404.jpg"' alt="netzob语言规范"></a><div class="content"><a class="title" href="/netzob%E8%AF%AD%E8%A8%80%E8%A7%84%E8%8C%83/" title="netzob语言规范">netzob语言规范</a><time datetime="2020-11-05T13:44:03.000Z" title="发表于 2020-11-05 21:44:03">2020-11-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/qnap-nas-releated/" title="qnap_nas_releated"><img src="/img/back2.jpeg" onerror='this.onerror=null,this.src="/img/404.jpg"' alt="qnap_nas_releated"></a><div class="content"><a class="title" href="/qnap-nas-releated/" title="qnap_nas_releated">qnap_nas_releated</a><time datetime="2020-10-21T08:50:28.000Z" title="发表于 2020-10-21 16:50:28">2020-10-21</time></div></div></div></div></div></div></div></main><footer id="footer" style="background:flase"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By whitepoet</div><div class="framework-info"><span>框架</span> <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题</span> <a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Born senstive, loney and happy.</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49b1f5">hexo-generator-search</a> <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> {preloader.endLoading()})</script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk({
+      clientID: '86d39da8eedff381408b',
+      clientSecret: '2f8360b5ecb237572ef22eba9e3c2ff8f29a0af2',
+      repo: 'whitepoet.github.io',
+      owner: 'whitepoet',
+      admin: ['whitepoet'],
+      id: '18fe0bed5dd82d372ab2a34bb4ff9850',
+      language: 'en',
+      perPage: 10,
+      distractionFreeMode: true,
+      pagerDirection: 'last',
+      createIssueManually: true,
+      updateCountCallback: commentCount
+    })
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    $.getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js', initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !false) {
+  if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/js/myset.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async mobile="false"></script></div></body></html>
