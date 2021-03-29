@@ -92,32 +92,6 @@
       </tags>
   </entry>
   <entry>
-    <title>cisco_dhcp_configure</title>
-    <url>/cisco-dhcp-configure/</url>
-    <content><![CDATA[<p>cisco_dhcp server配置</p>
-<h2 id="1-Dhcp-server开启"><a href="#1-Dhcp-server开启" class="headerlink" title="1. Dhcp server开启"></a>1. Dhcp server开启</h2><p>​    </p>
-<figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">cisco&gt; enable</span><br><span class="line">cisco# configure terminal</span><br><span class="line">cisco(config)# service dhcp</span><br><span class="line">cisco(config)# ip dhcp pool cisco</span><br><span class="line">cisco(config)# network 192.168.1.0 255.255.255.0</span><br><span class="line">cisco(config)# default-router 192.168.1.1</span><br><span class="line">cisco(config)# lease 3</span><br><span class="line">cisco(config)# exit</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="2-开启端口"><a href="#2-开启端口" class="headerlink" title="2. 开启端口"></a>2. 开启端口</h2><figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">cisco(config)# interface f1</span><br><span class="line">cisco(config)# no shutdown</span><br><span class="line">cisco(config)# ip address 192.168.1.1 255.255.255.0</span><br></pre></td></tr></table></figure>
-
-<p>这里的f1是设备的一个端口名称，可以用show run命令查看</p>
-<figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">show ip dhcp binding  # 显示地址分配情况</span><br><span class="line">shou ip dhcp conflict # 显示地址冲突情况</span><br><span class="line">clear ip dhcp binding 192.168.1.1 # 清理已经分配的ip</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="3-Dhcp-relay配置"><a href="#3-Dhcp-relay配置" class="headerlink" title="3. Dhcp relay配置"></a>3. Dhcp relay配置</h2><p>​    </p>
-]]></content>
-      <categories>
-        <category>iot</category>
-      </categories>
-      <tags>
-        <tag>cisco</tag>
-        <tag>dhcp_configure</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Fuzzification:Anti-Fuzzing Techniques</title>
     <url>/Fuzzification-Anti-Fuzzing-Techniques/</url>
     <content><![CDATA[<h2 id="文献题目"><a href="#文献题目" class="headerlink" title="文献题目"></a>文献题目</h2><p>Fuzzification:Anti-Fuzzing Techniques</p>
@@ -170,6 +144,7 @@
 <h3 id="评估"><a href="#评估" class="headerlink" title="评估"></a>评估</h3><p>LAVA-M数据集和九个真实世界的程序（libjpeg, libpng, libtiff, pcre2, readelf,objdump, nm, objcopy, and MuPDF）</p>
 <p>使用AFL、HongFuzz、VUzzer、QSym进行fuzz原始程序和受保护的程序。</p>
 <p>发现的bug减少了95%，从LAVA-M数据集发现的减少了67.5%。在保持用户指定的开销预算同时覆盖率也降低了70.3%。而且数据流和控制流分析技术无法移除Fuzzification技术。</p>
+<h2 id="src"><a href="#src" class="headerlink" title="src"></a>src</h2><p><a href="https://github.com/sslab-gatech/fuzzification">https://github.com/sslab-gatech/fuzzification</a></p>
 ]]></content>
       <categories>
         <category>文献阅读笔记</category>
@@ -177,6 +152,129 @@
       <tags>
         <tag>anti-fuzz</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>aflne源码阅读——有状态相关</title>
+    <url>/aflne%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E2%80%94%E2%80%94%E6%9C%89%E7%8A%B6%E6%80%81%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<h2 id="state-info-t结构"><a href="#state-info-t结构" class="headerlink" title="state_info_t结构"></a>state_info_t结构</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">  u32 id;                     <span class="comment">/* state id */</span></span><br><span class="line">  u8 is_covered;              <span class="comment">/* has this state been covered */</span></span><br><span class="line">  u32 paths;                  <span class="comment">/* total number of paths exercising this state */</span></span><br><span class="line">  u32 paths_discovered;       <span class="comment">/* total number of new paths that have been discovered when this state is targeted/selected */</span></span><br><span class="line">  u32 selected_times;         <span class="comment">/* total number of times this state has been targeted/selected */</span></span><br><span class="line">  u32 fuzzs;                  <span class="comment">/* Total number of fuzzs (i.e., inputs generated) */</span></span><br><span class="line">  u32 score;                  <span class="comment">/* current score of the state */</span></span><br><span class="line">  u32 selected_seed_index;    <span class="comment">/* the recently selected seed index */</span></span><br><span class="line">  <span class="keyword">void</span> **seeds;               <span class="comment">/* keeps all seeds reaching this state -- can be casted to struct queue_entry* */</span></span><br><span class="line">  u32 seeds_count;            <span class="comment">/* total number of seeds, it must be equal the size of the seeds array */</span></span><br><span class="line">&#125; <span class="keyword">state_info_t</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="fuzz-one"><a href="#fuzz-one" class="headerlink" title="fuzz_one()"></a>fuzz_one()</h2><p>该函数位于afl-fuzz.c的5815行，并从5887行开始和有状态相关。</p>
+<p>这个函数是一个主要函数，关于如何选取M2这个序列主要在这个函数中进行描述。</p>
+<p>aflnet在参数中使用-E选项来开启有状态模式，并使用状态机进行指导。</p>
+<p>选取M2序列主要是根据选取的目标状态id进行选择。</p>
+<p>如果target_state_id==0，则M1序列为空，然后根据当前队列regions的state_count信息进行比对，统计M2序列区域的长度；</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//To compute M2_region_count, we identify the first region which has a different annotation</span></span><br><span class="line"><span class="comment">//Now we quickly compare the state count, we could make it more fine grained by comparing the exact response codes</span></span><br><span class="line">      <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; queue_cur-&gt;region_count ; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (queue_cur-&gt;regions[i].state_count != queue_cur-&gt;regions[<span class="number">0</span>].state_count) <span class="keyword">break</span>;</span><br><span class="line">        M2_region_count++;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果target_state_id!=0，则M1序列不为空，然后根据target_state_id，然后找到M2序列的第一个区域，并得到M2_start_region_ID，根据M2_start_region_ID比对state_count信息，统计M2序列区域的长度。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Identify M2_start_region_ID first based on the target_state_id</span></span><br><span class="line">      <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; queue_cur-&gt;region_count; i++) &#123;</span><br><span class="line">        u32 regionalStateCount = queue_cur-&gt;regions[i].state_count;</span><br><span class="line">        <span class="keyword">if</span> (regionalStateCount &gt; <span class="number">0</span>) &#123;</span><br><span class="line">          <span class="comment">//reachableStateID is the last ID in the state_sequence</span></span><br><span class="line">          u32 reachableStateID = queue_cur-&gt;regions[i].state_sequence[regionalStateCount - <span class="number">1</span>];</span><br><span class="line">          M2_start_region_ID++;</span><br><span class="line">          <span class="keyword">if</span> (reachableStateID == target_state_id) <span class="keyword">break</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="comment">//No annotation for this region</span></span><br><span class="line">          <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line"><span class="comment">//Then identify M2_region_count</span></span><br><span class="line">      <span class="keyword">for</span>(i = M2_start_region_ID; i &lt; queue_cur-&gt;region_count ; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (queue_cur-&gt;regions[i].state_count != queue_cur-&gt;regions[M2_start_region_ID].state_count) <span class="keyword">break</span>;</span><br><span class="line">        M2_region_count++;</span><br><span class="line">      &#125;</span><br><span class="line"><span class="comment">//Handle corner case(s) and skip the current queue entry</span></span><br><span class="line">      <span class="keyword">if</span> (M2_start_region_ID &gt;= queue_cur-&gt;region_count) <span class="keyword">return</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>如果不开启有状态模式，则会随机的选择M2序列，这里的UR函数是一个随机数生成函数，范围从0到limit-1，limit是函数输入的参数。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* Select M2 randomly */</span></span><br><span class="line">    u32 total_region = queue_cur-&gt;region_count;</span><br><span class="line">    <span class="keyword">if</span> (total_region == <span class="number">0</span>) PFATAL(<span class="string">&quot;0 region found for %s&quot;</span>, queue_cur-&gt;fname);</span><br><span class="line"></span><br><span class="line">    M2_start_region_ID = UR(total_region);</span><br><span class="line">    M2_region_count = UR(total_region - M2_start_region_ID);</span><br><span class="line">    <span class="keyword">if</span> (M2_region_count == <span class="number">0</span>) M2_region_count++; <span class="comment">//Mutate one region at least</span></span><br></pre></td></tr></table></figure>
+
+<p>后面对种子进行打分，主要是调用calculate_score()函数，然后是判断是否跳过deterministic变异阶段。</p>
+<p>后面是变异阶段，首先是deterministic变异阶段：</p>
+<ul>
+<li>bitflip，按位翻转，1变为0，0变为1</li>
+<li>arithmetic，整数加/减算术运算</li>
+<li>interest，把一些特殊内容替换到原文件中</li>
+<li>dictionary，把自动生成或用户提供的token替换/插入到原文件中</li>
+</ul>
+<p>后面进行两个随机变异</p>
+<ul>
+<li>havoc，各种随机生成的变异</li>
+<li>splice，将两个seed拼接得到新的seed，并继续执行havoc变异</li>
+</ul>
+<p>在变异的期间都调用common_fuzz_stuff()函数完成启动目标程序、变异后数据的发送、结果的处理。可见每一次变异报文的发送都会启动一次目标程序。</p>
+<h2 id="common-fuzz-stuff"><a href="#common-fuzz-stuff" class="headerlink" title="common_fuzz_stuff"></a>common_fuzz_stuff</h2><p>这个函数位于afl-fuzz.c的5382行，主要功能是写入修改的数据，运行程序，处理结果。</p>
+<ul>
+<li>write_to_testcase() 将变异写到文件中。</li>
+<li>run_target()，执行目标应用程序，监控超时，返回状态信息。</li>
+<li>save_if_interesting() 判断一个文件是否为interesting种子，如果是那么就保存输入文件(queue)。</li>
+</ul>
+<h2 id="setup-ipsm"><a href="#setup-ipsm" class="headerlink" title="setup_ipsm()"></a>setup_ipsm()</h2><p>该函数位于afl-fuzz.c的414行，主要是将实现的状态机初始化为一个graphviz图。</p>
+<h2 id="choose-target-state-u8-mode"><a href="#choose-target-state-u8-mode" class="headerlink" title="choose_target_state(u8 mode)"></a>choose_target_state(u8 mode)</h2><p>该函数位于afl-fuzz.c的645行，主要功能是如何选择目标状态进行fuzz。</p>
+<p>主要有三个选择模式：</p>
+<ul>
+<li>random_selection</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">selected_state_index = UR(state_ids_count);</span><br><span class="line">result = state_ids[selected_state_index];</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>round_robin</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">result = state_ids[selected_state_index];</span><br><span class="line">selected_state_index++;</span><br><span class="line"><span class="keyword">if</span> (selected_state_index == state_ids_count) selected_state_index = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>favor</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* Do ROUND_ROBIN for a few cycles to get enough statistical information*/</span></span><br><span class="line">      <span class="keyword">if</span> (state_cycles &lt; <span class="number">5</span>) &#123;</span><br><span class="line">        result = state_ids[selected_state_index];</span><br><span class="line">        selected_state_index++;</span><br><span class="line">        <span class="keyword">if</span> (selected_state_index == state_ids_count) &#123;</span><br><span class="line">          selected_state_index = <span class="number">0</span>;</span><br><span class="line">          state_cycles++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      result = update_scores_and_select_next_state(FAVOR);</span><br></pre></td></tr></table></figure>
+
+<h2 id="choose-seed-u32-target-state-id-u8-mode"><a href="#choose-seed-u32-target-state-id-u8-mode" class="headerlink" title="choose_seed(u32 target_state_id, u8 mode)"></a>choose_seed(u32 target_state_id, u8 mode)</h2><p>该函数位于afl-fuzz.c的680行，主要功能是对针对目标状态选择种子。</p>
+<p>选择种子也是类似选择状态的三种算法：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">case</span> RANDOM_SELECTION: <span class="comment">//Random seed selection</span></span><br><span class="line">     state-&gt;selected_seed_index = UR(state-&gt;seeds_count);</span><br><span class="line">     result = state-&gt;seeds[state-&gt;selected_seed_index];</span><br><span class="line">     <span class="keyword">break</span>;</span><br><span class="line">   <span class="keyword">case</span> ROUND_ROBIN: <span class="comment">//Round-robin seed selection</span></span><br><span class="line">     result = state-&gt;seeds[state-&gt;selected_seed_index];</span><br><span class="line">     state-&gt;selected_seed_index++;</span><br><span class="line">     <span class="keyword">if</span> (state-&gt;selected_seed_index == state-&gt;seeds_count) state-&gt;selected_seed_index = <span class="number">0</span>;</span><br><span class="line">     <span class="keyword">break</span>;</span><br><span class="line">   <span class="keyword">case</span> FAVOR:</span><br><span class="line">     <span class="keyword">if</span> (state-&gt;seeds_count &gt; <span class="number">10</span>) &#123;</span><br><span class="line">       <span class="comment">//Do seed selection similar to AFL + take into account state-aware information</span></span><br><span class="line">       <span class="comment">//e.g., was_fuzzed information becomes state-aware</span></span><br><span class="line">       u32 passed_cycles = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">while</span> (passed_cycles &lt; <span class="number">5</span>) &#123;</span><br><span class="line">         result = state-&gt;seeds[state-&gt;selected_seed_index];</span><br><span class="line">         <span class="keyword">if</span> (state-&gt;selected_seed_index + <span class="number">1</span> == state-&gt;seeds_count) &#123;</span><br><span class="line">           state-&gt;selected_seed_index = <span class="number">0</span>;</span><br><span class="line">           passed_cycles++;</span><br><span class="line">         &#125; <span class="keyword">else</span> state-&gt;selected_seed_index++;</span><br><span class="line"></span><br><span class="line">         <span class="comment">//Skip this seed with high probability if it is neither an initial seed nor a seed generated while the</span></span><br><span class="line">         <span class="comment">//current target_state_id was targeted</span></span><br><span class="line">         <span class="keyword">if</span> (result-&gt;generating_state_id != target_state_id &amp;&amp; !result-&gt;is_initial_seed &amp;&amp; UR(<span class="number">100</span>) &lt; <span class="number">90</span>) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">         u32 target_state_index = get_state_index(target_state_id);</span><br><span class="line">         <span class="keyword">if</span> (pending_favored) &#123;</span><br><span class="line">           <span class="comment">/* If we have any favored, non-fuzzed new arrivals in the queue,</span></span><br><span class="line"><span class="comment">              possibly skip to them at the expense of already-fuzzed or non-favored</span></span><br><span class="line"><span class="comment">              cases. */</span></span><br><span class="line">           <span class="keyword">if</span> (((was_fuzzed_map[target_state_index][result-&gt;index] == <span class="number">1</span>) || !result-&gt;favored) &amp;&amp; UR(<span class="number">100</span>) &lt; SKIP_TO_NEW_PROB) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">           <span class="comment">/* Otherwise, this seed is selected */</span></span><br><span class="line">           <span class="keyword">break</span>;</span><br><span class="line">         &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!result-&gt;favored &amp;&amp; queued_paths &gt; <span class="number">10</span>) &#123;</span><br><span class="line">           <span class="comment">/* Otherwise, still possibly skip non-favored cases, albeit less often.</span></span><br><span class="line"><span class="comment">              The odds of skipping stuff are higher for already-fuzzed inputs and</span></span><br><span class="line"><span class="comment">              lower for never-fuzzed entries. */</span></span><br><span class="line">           <span class="keyword">if</span> (queue_cycle &gt; <span class="number">1</span> &amp;&amp; (was_fuzzed_map[target_state_index][result-&gt;index] == <span class="number">0</span>)) &#123;</span><br><span class="line">             <span class="keyword">if</span> (UR(<span class="number">100</span>) &lt; SKIP_NFAV_NEW_PROB) <span class="keyword">continue</span>;</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">             <span class="keyword">if</span> (UR(<span class="number">100</span>) &lt; SKIP_NFAV_OLD_PROB) <span class="keyword">continue</span>;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="comment">/* Otherwise, this seed is selected */</span></span><br><span class="line">           <span class="keyword">break</span>;</span><br><span class="line">         &#125;</span><br><span class="line">       &#125;</span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       <span class="comment">//Do Round-robin if seeds_count of the selected state is small</span></span><br><span class="line">       result = state-&gt;seeds[state-&gt;selected_seed_index];</span><br><span class="line">       state-&gt;selected_seed_index++;</span><br><span class="line">       <span class="keyword">if</span> (state-&gt;selected_seed_index == state-&gt;seeds_count) state-&gt;selected_seed_index = <span class="number">0</span>;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="main"><a href="#main" class="headerlink" title="main()"></a>main()</h2><p>该函数位于afl-fuzz.c的8749行，从9163行开始对有状态fuzz进行叙述。</p>
+<p>cull_queue()用于精简队列</p>
+<p>首先通过choose_target_state()得到target_state_id，然后调用call_queue()根据选择的状态更新favorites，然后更新一个状态被选择的次数，如下代码。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">khint_t</span> k = kh_get(hms, khms_states, target_state_id);</span><br><span class="line">        <span class="keyword">if</span> (k != kh_end(khms_states)) &#123;</span><br><span class="line">          kh_val(khms_states, k)-&gt;selected_times++;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用choose_seed()函数选择种子。</p>
+<p>寻找选定的种子：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (selected_seed) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!queue_cur) &#123;</span><br><span class="line">            current_entry     = <span class="number">0</span>;</span><br><span class="line">            cur_skipped_paths = <span class="number">0</span>;</span><br><span class="line">            queue_cur         = <span class="built_in">queue</span>;</span><br><span class="line">            queue_cycle++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (queue_cur != selected_seed) &#123;</span><br><span class="line">          queue_cur = queue_cur-&gt;next;</span><br><span class="line">          current_entry++;</span><br><span class="line">          <span class="keyword">if</span> (!queue_cur) &#123;</span><br><span class="line">            current_entry     = <span class="number">0</span>;</span><br><span class="line">            cur_skipped_paths = <span class="number">0</span>;</span><br><span class="line">            queue_cur         = <span class="built_in">queue</span>;</span><br><span class="line">            queue_cycle++;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
+<p>之后调用fuzz_one()函数。</p>
+<p>如果没有启用有状态模式，过程类似有状态模式，只是缺少了状态选择等操作。</p>
+]]></content>
+      <categories>
+        <category>aflnet</category>
+      </categories>
+      <tags>
+        <tag>aflnet</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>cisco_dhcp_configure</title>
+    <url>/cisco-dhcp-configure/</url>
+    <content><![CDATA[<p>cisco_dhcp server配置</p>
+<h2 id="1-Dhcp-server开启"><a href="#1-Dhcp-server开启" class="headerlink" title="1. Dhcp server开启"></a>1. Dhcp server开启</h2><p>​    </p>
+<figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">cisco&gt; enable</span><br><span class="line">cisco# configure terminal</span><br><span class="line">cisco(config)# service dhcp</span><br><span class="line">cisco(config)# ip dhcp pool cisco</span><br><span class="line">cisco(config)# network 192.168.1.0 255.255.255.0</span><br><span class="line">cisco(config)# default-router 192.168.1.1</span><br><span class="line">cisco(config)# lease 3</span><br><span class="line">cisco(config)# exit</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-开启端口"><a href="#2-开启端口" class="headerlink" title="2. 开启端口"></a>2. 开启端口</h2><figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">cisco(config)# interface f1</span><br><span class="line">cisco(config)# no shutdown</span><br><span class="line">cisco(config)# ip address 192.168.1.1 255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<p>这里的f1是设备的一个端口名称，可以用show run命令查看</p>
+<figure class="highlight plain"><figcaption><span>shell</span></figcaption><table><tr><td class="code"><pre><span class="line">show ip dhcp binding  # 显示地址分配情况</span><br><span class="line">shou ip dhcp conflict # 显示地址冲突情况</span><br><span class="line">clear ip dhcp binding 192.168.1.1 # 清理已经分配的ip</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-Dhcp-relay配置"><a href="#3-Dhcp-relay配置" class="headerlink" title="3. Dhcp relay配置"></a>3. Dhcp relay配置</h2><p>​    </p>
+]]></content>
+      <categories>
+        <category>iot</category>
+      </categories>
+      <tags>
+        <tag>cisco</tag>
+        <tag>dhcp_configure</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/hello-world/</url>
+    <content><![CDATA[<p>littlewhite,Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
   </entry>
   <entry>
     <title>cve-2017-14429复现</title>
@@ -231,24 +329,6 @@
         <tag>dhcp_ld</tag>
         <tag>dlink</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/hello-world/</url>
-    <content><![CDATA[<p>littlewhite,Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
   </entry>
   <entry>
     <title>netzob语言规范</title>
