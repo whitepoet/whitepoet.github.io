@@ -6,7 +6,7 @@
   <link href="https://whitepoet.com/atom.xml" rel="self"/>
   
   <link href="https://whitepoet.com/"/>
-  <updated>2021-03-29T13:12:38.318Z</updated>
+  <updated>2021-03-30T02:32:15.428Z</updated>
   <id>https://whitepoet.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hexo主题升级办法</title>
+    <link href="https://whitepoet.com/hexo%E4%B8%BB%E9%A2%98%E5%8D%87%E7%BA%A7%E5%8A%9E%E6%B3%95/"/>
+    <id>https://whitepoet.com/hexo%E4%B8%BB%E9%A2%98%E5%8D%87%E7%BA%A7%E5%8A%9E%E6%B3%95/</id>
+    <published>2021-03-30T02:28:56.000Z</published>
+    <updated>2021-03-30T02:32:15.428Z</updated>
+    
+    <content type="html"><![CDATA[<p>hexo主题在升级的时候一般都是使用git，但是直接使用git升级的话会导致以前自己的一些配置被覆盖，通过下面的办法可以解决这个问题。</p><p>到主题文件夹中</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git stash</span><br><span class="line">git pull</span><br><span class="line">git stash pop</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;hexo主题在升级的时候一般都是使用git，但是直接使用git升级的话会导致以前自己的一些配置被覆盖，通过下面的办法可以解决这个问题。&lt;/p&gt;
+&lt;p&gt;到主题文件夹中&lt;/p&gt;
+&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td cla</summary>
+      
+    
+    
+    
+    <category term="hexo" scheme="https://whitepoet.com/categories/hexo/"/>
+    
+    
+    <category term="hero" scheme="https://whitepoet.com/tags/hero/"/>
+    
+  </entry>
   
   <entry>
     <title>aflne源码阅读——有状态相关</title>
